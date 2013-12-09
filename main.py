@@ -6,3 +6,6 @@ from api import BLKAPI
 
 test = BLKAPI()
 test.initiallogic()
+# print (test.blktrans)
+
+test.writetocsv("test.csv")
