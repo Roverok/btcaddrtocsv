@@ -11,21 +11,19 @@ class BLKAPI(object):
     # Temporary Hardcode
 	api_format = "?format=json"
     # Transactions
-	blktrans = { }
+	blktrans = []
 
 	def initiallogic(self) :
 		numtrans = 0
 		initialcall = self.call(0)
-		numberOfTransactions = initialcall["n_tx"]
+		self.numberOfTransactions = initialcall["n_tx"]
 		for txs in initialcall["txs"]:
 			inout = self.getdiff(txs)
-			self.blktrans[numtrans] = []
-			self.blktrans[numtrans].append( self.api_address)
-			self.blktrans[numtrans].append(txs["hash"])
-			self.blktrans[numtrans].append(inout["in"])
-			self.blktrans[numtrans].append(inout["out"])
+			self.blktrans.append([ self.api_address , txs["hash"] , inout["in"] , inout["out"] ])
 			numtrans = numtrans + 1
-			
+
+		
+	
 	def call(self, offset):
 		if offset == 0 :
 			# No need of Offset api
@@ -73,5 +71,5 @@ class BLKAPI(object):
 		# Write Headers
 		wr.writerow(["Account","Description", "Money In", "Money Out"])
 		for item in self.blktrans :
-			print (self.blktrans[item])
-			wr.writerow(self.blktrans[item])
+			print (item)
+			wr.writerow(item)
