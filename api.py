@@ -36,7 +36,7 @@ class BLKAPI(object):
 
 	def populatetrans(self, alltrans):
 		# Date Format YYYY-MM-DD HH:MM:SS TZ
-		fmt = '%Y-%m-%d'
+		fmt = '%y-%m-%d'
 		fmttime = '%H:%M:%S'
 		for txs in alltrans:
 			inout = self.getdiff(txs)
