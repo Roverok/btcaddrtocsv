@@ -36,11 +36,12 @@ class BLKAPI(object):
 
 	def populatetrans(self, alltrans):
 		# Date Format YYYY-MM-DD HH:MM:SS TZ
-		fmt = '%Y-%m-%d %H:%M:%S'
+		fmt = '%Y-%m-%d'
+		fmttime = '%H:%M:%S'
 		for txs in alltrans:
 			inout = self.getdiff(txs)
 			txtime = datetime.datetime.fromtimestamp(int(txs["time"]))
-			self.blktrans.append([ txtime.strftime(fmt), self.api_address , txs["hash"] , inout["in"] , inout["out"] ])
+			self.blktrans.append([ txtime.strftime(fmt), txtime.strftime(fmttime), self.api_address , txs["hash"] , inout["in"] , inout["out"] ])
 
 	
 	def call(self, offset):
@@ -88,7 +89,7 @@ class BLKAPI(object):
 		wr = csv.writer(output, quotechar=None)
 		
 		# Write Headers
-		wr.writerow(["Date","Account","Description", "Money In", "Money Out"])
+		wr.writerow(["Date","Time","Account","Description", "Money In", "Money Out"])
 		for item in self.blktrans :
 			print (item)
 			wr.writerow(item)
