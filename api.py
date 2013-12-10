@@ -117,8 +117,9 @@ class BLKAPI(object):
 	def writetocsv(self, filename):
 		
 		## Normalize First
-		##self.normalize()
-		##self.bitcoinit()
+		self.normalize()
+		## Convert Satoshi to BTC
+		self.bitcoinit()
 		
 		## Create Output File
 		output = open(filename, 'w', newline='', encoding='utf8')
