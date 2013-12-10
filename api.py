@@ -76,6 +76,16 @@ class BLKAPI(object):
 				## Set Adjusted Negative Amount
 				item[5] = tempfive
 		
+		return
+		
+	def bitcoinit(self):
+		for item in self.blktrans:
+			# Convert to BTC
+			item[4] = float(item[4])/100000000
+			item[5] = float(item[5])/100000000
+		
+		return
+		
 	def getdiff(self, datx):
 		# Find the change
 		satoshisin = 0
@@ -106,6 +116,7 @@ class BLKAPI(object):
 		
 		## Normalize First
 		self.normalize()
+		self.bitcoinit()
 		
 		## Create Output File
 		output = open(filename, 'w', newline='', encoding='utf8')
