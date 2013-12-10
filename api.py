@@ -12,10 +12,11 @@ class BLKAPI(object):
 	api_address = "1KMLjhgjGLxZTJT5TSWxV2HCZHBqpDEpa1"
     # Temporary Hardcode
 	api_format = "?format=json"
-  # Transactions
+	# Transactions
 	blktrans = []
 
-	def initiallogic(self) :
+	def initiallogic(self, address) :
+		self.api_address = address
 		numtrans = 0
 		initialcall = self.call(0)
 		self.numberOfTransactions = initialcall["n_tx"]
@@ -119,7 +120,7 @@ class BLKAPI(object):
 		## Normalize First
 		self.normalize()
 		## Convert Satoshi to BTC
-		##self.bitcoinit()
+		self.bitcoinit()
 		
 		## Create Output File
 		output = open(filename, 'w', newline='', encoding='utf8')
