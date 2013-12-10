@@ -3,6 +3,8 @@
 import json
 import urllib.request
 import csv
+import datetime
+from datetime import tzinfo
 
 class BLKAPI(object):
 	
@@ -10,27 +12,44 @@ class BLKAPI(object):
 	api_address = "1KMLjhgjGLxZTJT5TSWxV2HCZHBqpDEpa1"
     # Temporary Hardcode
 	api_format = "?format=json"
-    # Transactions
+  # Transactions
 	blktrans = []
 
 	def initiallogic(self) :
 		numtrans = 0
 		initialcall = self.call(0)
 		self.numberOfTransactions = initialcall["n_tx"]
+		self.populatetrans(initialcall["txs"])
+		numtrans += 50
+		while self.numberOfTransactions > numtrans :
+			subsequentcalls = self.call(numtrans)
+			self.populatetrans(subsequentcalls["txs"])
+			numtrans += 50
+			
+			
+		'''
 		for txs in initialcall["txs"]:
 			inout = self.getdiff(txs)
-			self.blktrans.append([ self.api_address , txs["hash"] , inout["in"] , inout["out"] ])
-			numtrans = numtrans + 1
+			txtime = datetime.datetime.fromtimestamp(int(txs["time"]))
+			self.blktrans.append([ txtime.strftime(fmt), self.api_address , txs["hash"] , inout["in"] , inout["out"] ])
+		'''
 
-		
+	def populatetrans(self, alltrans):
+		# Date Format YYYY-MM-DD HH:MM:SS TZ
+		fmt = '%Y-%m-%d %H:%M:%S'
+		for txs in alltrans:
+			inout = self.getdiff(txs)
+			txtime = datetime.datetime.fromtimestamp(int(txs["time"]))
+			self.blktrans.append([ txtime.strftime(fmt), self.api_address , txs["hash"] , inout["in"] , inout["out"] ])
+
 	
 	def call(self, offset):
 		if offset == 0 :
 			# No need of Offset api
 			api_call = self.api_url + self.api_address + self.api_format
 		else:
-			api_call = self.api_url + self.api_address + self.api_format + "&offset=" + offset
-		# print("Trying API Call:\n " + api_call)
+			api_call = self.api_url + self.api_address + self.api_format + "&offset=" + str(offset)
+		print("Trying API Call:\n " + api_call)
 		request = urllib.request.Request(api_call)
 		response = urllib.request.urlopen(request)
 		xjson = json.loads((response.read().decode('utf-8')))
@@ -69,7 +88,7 @@ class BLKAPI(object):
 		wr = csv.writer(output, quotechar=None)
 		
 		# Write Headers
-		wr.writerow(["Account","Description", "Money In", "Money Out"])
+		wr.writerow(["Date","Account","Description", "Money In", "Money Out"])
 		for item in self.blktrans :
 			print (item)
 			wr.writerow(item)
