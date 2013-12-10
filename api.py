@@ -39,6 +39,8 @@ class BLKAPI(object):
 		fmt = '%y-%m-%d'
 		fmttime = '%H:%M:%S'
 		for txs in alltrans:
+			if txs["hash"] == "bb4b1f8afd8c165c4c7473064429126d5dd54b0c06f3dd0286f1a468f137be8c":
+				print (txs)
 			inout = self.getdiff(txs)
 			txtime = datetime.datetime.fromtimestamp(int(txs["time"]))
 			self.blktrans.append([ txtime.strftime(fmt), txtime.strftime(fmttime), self.api_address , txs["hash"] , inout["in"] , inout["out"] ])
@@ -94,7 +96,7 @@ class BLKAPI(object):
 			if "prev_out" in inputaddr :
 				if inputaddr["prev_out"]["addr"] == self.api_address :
 					# Correct Address
-					satoshisout = satoshisout + inputaddr["prev_out"]["value"]
+					satoshisout += inputaddr["prev_out"]["value"]
 			else :
 				# No Input Transaction; Do Nothing
 				continue;
@@ -105,7 +107,7 @@ class BLKAPI(object):
 				if outputaddr["addr"] == self.api_address :
 					# Correct Address
 					# print("Amount Value Up:\n " + str(outputaddr["value"]))
-					satoshisin = satoshisin + outputaddr["value"]
+					satoshisin += outputaddr["value"]
 			else:
 				# Object totally Doesn't. Fuck that bitch!
 				continue;
@@ -116,7 +118,7 @@ class BLKAPI(object):
 		
 		## Normalize First
 		##self.normalize()
-		self.bitcoinit()
+		##self.bitcoinit()
 		
 		## Create Output File
 		output = open(filename, 'w', newline='', encoding='utf8')
