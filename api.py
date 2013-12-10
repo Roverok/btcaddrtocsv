@@ -115,7 +115,7 @@ class BLKAPI(object):
 	def writetocsv(self, filename):
 		
 		## Normalize First
-		self.normalize()
+		##self.normalize()
 		self.bitcoinit()
 		
 		## Create Output File
