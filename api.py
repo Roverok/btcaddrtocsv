@@ -55,8 +55,26 @@ class BLKAPI(object):
 		response = urllib.request.urlopen(request)
 		xjson = json.loads((response.read().decode('utf-8')))
 		return xjson
-		
-
+	
+	def normalize(self):
+		for item in self.blktrans:
+			if item[4] == 0 or item[5] == 0 :
+				## No real Normalization here. One of these is already 0
+				continue;
+			elif item[4] > item[5] :
+				## Net Positive Transaction
+				tempfour = item[4] - item[5]
+				## Positive Transaction Zero Leaving in the End
+				item[5] = 0
+				## Set Adjusted Postive Amount
+				item[4] = tempfour
+			elif item[5] > item[4] :
+				## Net Negative Transaction
+				tempfive = item[5] = item[4]
+				## Negative Transaction Zero Incoming in the End
+				item[4] = 0
+				## Set Adjusted Negative Amount
+				item[5] = tempfive
 		
 	def getdiff(self, datx):
 		# Find the change
@@ -85,11 +103,21 @@ class BLKAPI(object):
 		return inout
 		
 	def writetocsv(self, filename):
+		
+		## Normalize First
+		self.normalize()
+		
+		## Create Output File
 		output = open(filename, 'w', newline='', encoding='utf8')
+		## Create CSV Writer
 		wr = csv.writer(output, quotechar=None)
 		
 		# Write Headers
 		wr.writerow(["Date","Time","Account","Description", "Money In", "Money Out"])
+		
+		## Write Transactions
 		for item in self.blktrans :
+			# Print the Transaction Pythonically
 			print (item)
+			# Print the Transaction CSV Style to File
 			wr.writerow(item)
