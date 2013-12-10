@@ -72,7 +72,7 @@ class BLKAPI(object):
 				item[4] = tempfour
 			elif item[5] > item[4] :
 				## Net Negative Transaction
-				tempfive = item[5] = item[4]
+				tempfive = item[5] - item[4]
 				## Negative Transaction Zero Incoming in the End
 				item[4] = 0
 				## Set Adjusted Negative Amount
@@ -119,7 +119,7 @@ class BLKAPI(object):
 		## Normalize First
 		self.normalize()
 		## Convert Satoshi to BTC
-		self.bitcoinit()
+		##self.bitcoinit()
 		
 		## Create Output File
 		output = open(filename, 'w', newline='', encoding='utf8')
