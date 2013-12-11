@@ -10,8 +10,8 @@ parser = argparse.ArgumentParser()
 # -h Help
 # -a BTCAddress
 # -o CSV Output File
-parser.add_argument("-a", "--btcaddress", help="Bitcoin Address")
-parser.add_argument("-o", "--outputfile", help="CSV Formatted Output File")
+parser.add_argument("-a", "--btcaddress", help="Bitcoin Address", required=True)
+parser.add_argument("-o", "--outputfile", help="CSV Formatted Output File", default="out.csv")
 
 args = parser.parse_args()
 
