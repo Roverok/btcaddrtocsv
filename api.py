@@ -14,6 +14,12 @@ class BLKAPI(object):
 	api_format = "?format=json"
 	# Transactions
 	blktrans = []
+	prevtranstxids = []
+	prevtransactions = []
+	
+	def convertoldcsvtrans(self, oldfilename):
+		oldfile = open(oldfilename, 'w')
+		csvoldfile = csv.reader(oldfile)
 
 	def initiallogic(self, address) :
 		self.api_address = address
@@ -40,11 +46,9 @@ class BLKAPI(object):
 		fmt = '%y-%m-%d'
 		fmttime = '%H:%M:%S'
 		for txs in alltrans:
-			if txs["hash"] == "bb4b1f8afd8c165c4c7473064429126d5dd54b0c06f3dd0286f1a468f137be8c":
-				print (txs)
 			inout = self.getdiff(txs)
 			txtime = datetime.datetime.fromtimestamp(int(txs["time"]))
-			self.blktrans.append([ txtime.strftime(fmt), txtime.strftime(fmttime), self.api_address , txs["hash"] , inout["in"] , inout["out"] ])
+			self.blktrans.append([ txtime.strftime(fmt), txtime.strftime(fmttime), self.api_address , txs["hash"] , inout["in"] , inout["out"], "" ])
 
 	
 	def call(self, offset):
@@ -128,7 +132,7 @@ class BLKAPI(object):
 		wr = csv.writer(output, quotechar=None)
 		
 		# Write Headers
-		wr.writerow(["Date","Time","Account","Description", "Money In", "Money Out"])
+		wr.writerow(["Date","Time","Account","Description", "Money In", "Money Out", "Notes"])
 		
 		## Write Transactions
 		for item in self.blktrans :
