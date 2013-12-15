@@ -21,6 +21,7 @@ btcaddr = args.btcaddress
 
 test = BLKAPI()
 test.initiallogic(btcaddr)
-# print (test.blktrans)
+test.convertoldcsvtrans("test2.csv")
+print (test.blktrans)
 
 test.writetocsv(outputfilename)

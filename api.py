@@ -10,7 +10,7 @@ class BLKAPI(object):
 	
 	api_url = "http://blockchain.info/address/"
 	api_address = "1KMLjhgjGLxZTJT5TSWxV2HCZHBqpDEpa1"
-    # Temporary Hardcode
+	# Temporary Hardcode
 	api_format = "?format=json"
 	# Transactions
 	blktrans = []
@@ -18,8 +18,15 @@ class BLKAPI(object):
 	prevtransactions = []
 	
 	def convertoldcsvtrans(self, oldfilename):
-		oldfile = open(oldfilename, 'w')
+		oldfile = open(oldfilename, 'r')
 		csvoldfile = csv.reader(oldfile)
+		print (csvoldfile.line_num)
+		for row in csvoldfile:
+			for i in self.blktrans:
+				# Search Through Transactions
+				if row[3] == i[3]:
+					# Add Commnets to New One
+					i[6] = row[6]
 
 	def initiallogic(self, address) :
 		self.api_address = address
