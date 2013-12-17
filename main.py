@@ -12,6 +12,7 @@ parser = argparse.ArgumentParser()
 # -o CSV Output File
 parser.add_argument("-a", "--btcaddress", help="Bitcoin Address", required=True)
 parser.add_argument("-o", "--outputfile", help="CSV Formatted Output File", default="out.csv")
+parser.add_argument("-x", "--existing", help="CSV Formatted Existing File")
 
 args = parser.parse_args()
 
@@ -21,7 +22,10 @@ btcaddr = args.btcaddress
 
 test = BLKAPI()
 test.initiallogic(btcaddr)
-test.convertoldcsvtrans("test2.csv")
+
+if args.existing :
+	test.convertoldcsvtrans(args.existing)
+
 print (test.blktrans)
 
 test.writetocsv(outputfilename)
