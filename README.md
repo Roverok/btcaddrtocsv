@@ -54,7 +54,7 @@ Example in Use:
 $ ./btc2csv.sh -t addresses.txt
 ```
 
-In this example ```btc2csv.sh``` will pull all the addresses listed in addresses.txt. Lines beginning with # are ignored. It outputs each addresses data into a csv file in ```./csvs/1ST5L.csv``` where "1ST5L" is the first five characters of the BTC address in question.
+In this example ```btc2csv.sh``` will pull all the addresses listed in addresses.txt. Lines beginning with # are ignored. **It outputs each addresses data into a csv file in ```./csvs/1ST5L.csv``` where "1ST5L" is the first five characters of the BTC address in question.**
 
 ## .CSV Format
 
