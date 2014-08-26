@@ -4,7 +4,7 @@
 
 
 # btc2csv.sh -t <TextFileWithAddresses>
-
+# Help Message
 help(){
         echo ""
         echo -e "DESCRIPTION:"
@@ -30,6 +30,7 @@ help(){
 TEXTFILE=""
 UpdatedFiles=""
 
+# Get CLI Flags
 while getopts "t:h" OPTIONS; do
     case $OPTIONS in
         t) TEXTFILE=${OPTARG};;
@@ -38,19 +39,25 @@ while getopts "t:h" OPTIONS; do
 done
 
 if [[ $TEXTFILE == "" ]]; then
+    # Check if we have a text file. This script needs a text file
     echo "Error: Please Specify a Text File with Addresses"
     help
 else
+    # Grab the total addresses in the text file.
     totaladdresses=`wc -l $TEXTFILE | cut -f 1 -d " "`
+    # Counter for Current Address
     onaddress=0
+    # Loop through all the addresses
     while read address
     do
+        # Ignore lines that start with #
         if  [[ ${address:0:1} == "#" ]]
         then
-            # Ignore Line It's a Comment
+            # Ignore Line It's a Comment Increment and continue
             let "onaddress++"
             continue
         else
+            # Print a status message
             echo " File $onaddress of $totaladdresses "
             # Cycle Through Addresses and Run Python Command for each
             #echo "Trying Address:"
@@ -58,11 +65,13 @@ else
             csvfilename=${address:0:5}.csv
             if [ -a csvs/$csvfilename ]
                 then
+                    # Check if the file has changed Get total lines in csv
                     beforetempfilesize=`wc -l csvs/$csvfilename | cut -f 1 -d " " `
                     #echo $beforetempfilesize
                     #echo "File $csvfilename exists Updating"
                     # Run through the command using existing File
                     python ./main.py -a $address -x csvs/$csvfilename -o csvs/$csvfilename
+                    # Get total lines again
                     aftertempfilesize=`wc -l csvs/$csvfilename | cut -f 1 -d " " `
                     #echo $aftertempfilesize
                     if [ $aftertempfilesize -gt $beforetempfilesize ]
@@ -76,6 +85,8 @@ else
                     # echo "File $csvfilename does not exist Creating"
                     # Run through command using new file
                     python ./main.py -a $address -o csvs/$csvfilename
+                    # Add File to Updated Files Status Message
+                    UpdatedFiles="$UpdatedFilescsvs/$csvfilename \t\t $address \n"
                 fi
                 # Only Sleep If Actually Called File
                 # Put in a Wait so you don't run afoul of blockchain.info rate limiting
@@ -84,6 +95,7 @@ else
         # Always Increment
         #echo "Incrementing Counter"
         let "onaddress++"
+    # Makes it loop through the text file
     done < $TEXTFILE
     
     if [[ $UpdatedFiles == "" ]]; then
@@ -97,6 +109,7 @@ else
         echo ""
         echo "-------------------Updated Files-----------------"
         echo ""
+        # Actually print the updates
         echo -e $UpdatedFiles
         exit 0;
     fi
