@@ -2,6 +2,10 @@
 
 This is two scripts that can provide the ability to pull Bitcoin Public Address information off blockchain.info's API and put it into a CSV file. It is broken into two parts.
 
+## License
+
+This tool is released under GPL version 2.1 license. See the file named ```LICENSE``` for more details.
+
 ## main.py - Pulling a single address.
 
 ```main.py``` provides the ability to pull a single address down from blockchain.info's api and store it in a CSV file. Usage:
