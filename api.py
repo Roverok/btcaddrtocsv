@@ -20,7 +20,7 @@ class BLKAPI(object):
 	def convertoldcsvtrans(self, oldfilename):
 		oldfile = open(oldfilename, 'r')
 		csvoldfile = csv.reader(oldfile)
-		print (csvoldfile.line_num)
+		# print (csvoldfile.line_num)
 		for row in csvoldfile:
 			for i in self.blktrans:
 				# Search Through Transactions
@@ -64,7 +64,7 @@ class BLKAPI(object):
 			api_call = self.api_url + self.api_address + self.api_format
 		else:
 			api_call = self.api_url + self.api_address + self.api_format + "&offset=" + str(offset)
-		print("Trying API Call:\n " + api_call)
+		# print("Trying API Call:\n " + api_call)
 		request = urllib.request.Request(api_call)
 		response = urllib.request.urlopen(request)
 		xjson = json.loads((response.read().decode('utf-8')))
@@ -144,6 +144,6 @@ class BLKAPI(object):
 		## Write Transactions
 		for item in self.blktrans :
 			# Print the Transaction Pythonically
-			print (item)
+			# print (item)
 			# Print the Transaction CSV Style to File
 			wr.writerow(item)

@@ -27,6 +27,7 @@ test.initiallogic(btcaddr)
 if args.existing :
 	test.convertoldcsvtrans(args.existing)
 
-print (test.blktrans)
+# Removing Printing
+# print (test.blktrans)
 
 test.writetocsv(outputfilename)
