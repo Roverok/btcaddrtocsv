@@ -1,4 +1,4 @@
-#! /usr/bin/python3.2
+#!/usr/bin/env python3
 
 # Grab Address and Info and convert to CSV File for given dates
 
