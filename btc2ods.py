@@ -20,18 +20,22 @@ def test():
 
     # Add some content
     sheet.getCell(0,0).stringValue("Some Cool Text")
-    sheet.getCell(0,1).floatValue(2)
+    sheet.getCell(1,0).floatValue(2)
 
     # Add some more content
-    sheet.getCell(1,0).stringValue("Some More Cooler Text")
-    sheet.getCell(0,1).floatValue(3)
+    sheet.getCell(0,1).stringValue("Some More Cooler Text")
+    sheet.getCell(1,1).floatValue(3)
 
     # Add a Formula
-    sheet.getCell(2,0).stringValue("Together Now")
-    sheet.getCell(2,1).floatForumula(0, '=SUM(B2:B3)')
+    sheet.getCell(0,2).stringValue("Together Now")
+    sheet.getCell(1,2).floatFormula(0, '=SUM(B1:B2)')
 
+    # Create Sheet2
+    ods.content.makeSheet("Second Sheet")
 
-    return
+    # Generate Response and Save
+    ods.save("test.ods")
+    return 
 
 
 test()
