@@ -6,8 +6,10 @@
 # client add it to their system manually
 import sys
 sys.path.insert(0, './ezodf')
-
+sys.path.insert(0, './lxml')
+from lxml import etree
 from ezodf import newdoc, Sheet
+
 
 def test():
     ods = newdoc(doctype='ods', filname='test.ods')
