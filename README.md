@@ -88,3 +88,4 @@ Values:
 * Add ability to pull directly from running bitcoind instance
 * Add ability to output to more formats like .ods
 * Add GUI? Maybe not sure if actually desired.
+    * Maybe? Don't know testing new box need a test commit.
